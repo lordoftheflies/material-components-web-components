@@ -27,6 +27,7 @@ rules:
   "@typescript-eslint/indent": off
   indent: off
   max-len: off
+  block-spacing: off
 
   "@typescript-eslint/explicit-member-accessibility": [error, {"accessibility": "no-public"}]
 
@@ -61,6 +62,6 @@ overrides:
       no-unused-vars: off
       no-invalid-this: off
       new-cap: off
-  - files: ["packages/**/src/test/*.ts"]
+  - files: ["packages/**/test/*.ts"]
     rules:
       "@typescript-eslint/no-non-null-assertion": off

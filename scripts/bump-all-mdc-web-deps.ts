@@ -24,6 +24,7 @@ const packagesDir = path.resolve(__dirname, '..', '..', 'packages');
 interface PackageJson {
   name: string;
   dependencies?: {[mdcwPkg: string]: string};
+  devDependencies?: {[mdcwPkg: string]: string};
 }
 
 function isMdcWebPackage(mdcwPkg: string): boolean {
@@ -44,20 +45,37 @@ function main() {
   for (const relPath of packageJsonPaths) {
     const absPath = path.join(packagesDir, relPath);
     const pj = JSON.parse(fs.readFileSync(absPath, 'utf8')) as PackageJson;
-    if (!pj.dependencies) {
+    if (!pj.dependencies && !pj.devDependencies) {
       continue;
     }
     console.log(`Checking ${pj.name}`);
     let changed = false;
-    for (const [pkg, oldVersion] of Object.entries(pj.dependencies)) {
-      if (isMdcWebPackage(pkg)) {
-        if (oldVersion !== newVersion) {
-          pj.dependencies[pkg] = newVersion;
-          console.log(`\tUpdating ${pkg} from ${oldVersion} to ${newVersion}`);
-          changed = true;
-          anyChanged = true;
+
+    const updateDependencies = (dependencies: Record<string, string>) => {
+      for (const [pkg, oldVersion] of Object.entries(dependencies)) {
+        if (isMdcWebPackage(pkg)) {
+          // TODO(b/156658489): Keep MDC slider dep pinned until
+          // we've updated to the M2 slider.
+          if (pkg.startsWith('@material/slider')) {
+            continue;
+          }
+
+          if (oldVersion !== newVersion) {
+            dependencies[pkg] = newVersion;
+            console.log(
+                `\tUpdating ${pkg} from ${oldVersion} to ${newVersion}`);
+            changed = true;
+            anyChanged = true;
+          }
         }
       }
+    };
+
+    if (pj.dependencies) {
+      updateDependencies(pj.dependencies);
+    }
+    if (pj.devDependencies) {
+      updateDependencies(pj.devDependencies)
     }
     if (changed) {
       console.log(`\tWriting new package.json`);
@@ -65,6 +83,10 @@ function main() {
     }
   }
   if (anyChanged) {
+    // Set an output value for consumption by a GitHub Action.
+    // https://help.github.com/en/articles/development-tools-for-github-actions#set-an-output-parameter-set-output
+    console.log(
+        `::set-output name=new-mdc-version::${newVersion.substring(1)}`);
     console.log(`\nRemember to run npm install!`);
   }
 }

@@ -2,4 +2,6 @@
 tsconfig.json
 *.tgz
 images/*
-src/test
+test/*
+*.ts
+!*.d.ts

@@ -11,6 +11,8 @@ For a version of this component that scrolls, see [`<mwc-top-app-bar>`](https://
 
 [Material Design Guidelines: App Bars: Top](https://material.io/design/components/app-bars-top.html)
 
+[Demo](https://material-components.github.io/material-components-web-components/demos/top-app-bar-fixed/)
+
 ## Installation
 
 ```sh
@@ -21,7 +23,7 @@ npm install @material/mwc-top-app-bar-fixed
 > Modules, and use the Custom Elements API. They are compatible with all modern
 > browsers including Chrome, Firefox, Safari, Edge, and IE11, but an additional
 > tooling step is required to resolve *bare module specifiers*, as well as
-> transpilation and polyfills for Edge and IE11. See
+> transpilation and polyfills for IE11. See
 > [here](https://github.com/material-components/material-components-web-components#quick-start)
 > for detailed instructions.
 
@@ -141,9 +143,22 @@ mwc-top-app-bar-fixed {
 ### CSS Custom Properties
 
 | Name | Default | Description
+| ------------------------------------ | --------------- | ---
+| `--mdc-top-app-bar-fixed-box-shadow` | mdc elevation 4 | Sets the box shadow of the fixed top app bar when scrolling.
+| `--mdc-top-app-bar-width`            | `100%`          | Width of the `top-app-bar` in relation to the Window.
+
+#### Global Custom Properties
+
+| Name | Default | Description
 | ---- | ------- | -----------
 | `--mdc-theme-primary` | ![](images/color_6200ee.png) `#6200ee` | Background color of the bar
 | `--mdc-theme-on-primary` | ![](images/color_ffffff.png) `#ffffff` | Text color of the title, and icon colors
+
+#### Elevation values
+
+| Elevation Level | CSS Value
+| --- | ---
+| `4` | `0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)`
 
 ## Additional references
 

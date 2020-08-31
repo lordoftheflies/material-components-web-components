@@ -1,64 +1,142 @@
-# mwc-formfield
+# `<mwc-formfield>` [![Published on npm](https://img.shields.io/npm/v/@material/mwc-formfield.svg)](https://www.npmjs.com/package/@material/mwc-formfield)
+> IMPORTANT: The Material Web Components are a work in progress and subject to
+> major changes until 1.0 release.
 
-> :warning: These components are a work in progress. They are pre-release and should be considered experimental, as they may undergo major changes before release. We are experimenting with alternate architectures and approaches with the goal of allowing us to bring the most correct and optimal implementation of Material components to the widest possible audiences. Visible progress may be slow, as this research is across teams and repositories so is not consistently reflected in commits to this codebase. :warning:
+A form field is a text caption for MWC input elements including
+[`<mwc-checkbox>`](https://github.com/material-components/material-components-web-components/tree/master/packages/checkbox),
+[`<mwc-radio>`](https://github.com/material-components/material-components-web-components/tree/master/packages/radio),
+and
+[`<mwc-switch>`](https://github.com/material-components/material-components-web-components/tree/master/packages/switch).
 
-A [Material Components](https://material.io/components/) formfield implementation using [Web Components](https://www.webcomponents.org/introduction)
+It is equivalent to the native
+[`<label>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label)
+element in that it forwards user interaction events to the input element. For example, tapping on the label causes the associated input element to toggle and focus.
 
-## Getting started
+[Material Design Guidelines: Selection controls](https://material.io/components/selection-controls/)
 
- * The easiest way to try out mwc-formfield is to use one of these online tools:
+[Demo](https://material-components.github.io/material-components-web-components/demos/formfield/)
 
-    * Runs in all [supported](#supported-browsers) browsers: [StackBlitz](https://stackblitz.com/edit/mwc-icon-example?file=index.js), [Glitch](https://glitch.com/edit/#!/mwc-icon-example?path=index.html)
+## Installation
 
-    * Runs in browsers with [JavaScript Modules](https://caniuse.com/#search=modules): [JSBin](http://jsbin.com/qibisux/edit?html,output),
-    [CodePen](https://codepen.io/azakus/pen/deZLja).
+```sh
+npm install @material/mwc-formfield
+```
 
-* You can also copy [this HTML file](https://gist.githubusercontent.com/azakus/f01e9fc2ed04e781ad5a52ded7b296e7/raw/266f2f4f91cbfe89b2acc6ec63957b1a3cfe9b39/index.html) into a local file and run it in any browser that supports [JavaScript Modules]((https://caniuse.com/#search=modules)).
+> NOTE: The Material Web Components are distributed as ES2017 JavaScript
+> Modules, and use the Custom Elements API. They are compatible with all modern
+> browsers including Chrome, Firefox, Safari, Edge, and IE11, but an additional
+> tooling step is required to resolve *bare module specifiers*, as well as
+> transpilation and polyfills for IE11. See
+> [here](https://github.com/material-components/material-components-web-components#quick-start)
+> for detailed instructions.
 
-* When you're ready to use mwc-formfield in a project, install it via [npm](https://www.npmjs.com/). To run the project in the browser, a module-compatible toolctain is required. We recommend installing the [Polymer CLI](https://github.com/Polymer/polymer-cli) and using its development server as follows.
+## Example usage
 
-  1. Ensure the webcomponents polyfills are included in your HTML page
+### With checkbox
 
-      - Install webcomponents polyfills
+<img src="images/with_checkbox.png" width="105px" height="40px">
 
-          ```npm i @webcomponents/webcomponentsjs```
+```html
+<mwc-formfield label="Tomato">
+  <mwc-checkbox checked></mwc-checkbox>
+</mwc-formfield>
 
-      - Add webcomponents polyfills to your HTML page
+<script type="module">
+  import '@material/mwc-checkbox';
+  import '@material/mwc-formfield';
+</script>
+```
 
-          ```<script src="@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>```
+### nowrap label with checkbox
 
-  1. Add mwc-formfield to your project:
+<img src="images/nowrap.png" width="150px" height="40px">
 
-      ```npm i @material/mwc-formfield```
+```html
+<style>
+  mwc-formfield[nowrap] {
+    width: 150px;
+  }
+</style>
+<mwc-formfield label="really really long label" nowrap>
+  <mwc-checkbox></mwc-checkbox>
+</mwc-formfield>
 
-  1. Import the mwc-formfield definition into your HTML page:
+<script type="module">
+  import '@material/mwc-checkbox';
+  import '@material/mwc-formfield';
+</script>
+```
 
-      ```<script type="module" src="@material/mwc-formfield/mwc-formfield.js"></script>```
+### With Radio
 
-      Or into your module script:
+<img src="images/with_radio.png" width="94px" height="80px">
 
-      ```import {Formfield} from "@material/mwc-formfield"```
+```html
+<style>
+  mwc-formfield {
+    display: block;
+  }
+</style>
 
-  1. Create an instance of mwc-formfield in your HTML page, or via any framework that [supports rendering Custom Elements](https://custom-elements-everywhere.com/):
+<mwc-formfield label="Home">
+  <mwc-radio name="location" checked></mwc-radio>
+</mwc-formfield>
 
-      ```<mwc-formfield>sentiment_very_satisfied</mwc-formfield>```
+<mwc-formfield label="Work">
+  <mwc-radio name="location"></mwc-radio>
+</mwc-formfield>
 
-  1. Install the Polymer CLI:
+<script type="module">
+  import '@material/mwc-radio';
+  import '@material/mwc-formfield';
+</script>
+```
 
-      ```npm i -g polymer-cli```
+### With Switch
 
-  1. Run the development server and open a browser pointing to its URL:
+<img src="images/with_switch.png" width="160px" height="48px">
 
-      ```polymer serve```
+```html
+<mwc-formfield label="Airplane mode">
+  <mwc-switch checked></mwc-switch>
+</mwc-formfield>
 
-  > mwc-formfield is published on [npm](https://www.npmjs.com/package/@material/mwc-formfield) using JavaScript Modules.
-  This means it can take advantage of the standard native JavaScript module loader available in all current major browsers.
-  >
-  > However, since mwc-formfield uses npm convention to reference dependencies by name, a light transform to rewrite specifiers to URLs is required to get it to run in the browser. The polymer-cli's development server `polymer serve` automatically handles this transform.
+<script type="module">
+  import '@material/mwc-switch';
+  import '@material/mwc-formfield';
+</script>
+```
 
-  Tools like [WebPack](https://webpack.js.org/) and [Rollup](https://rollupjs.org/) can also be used to serve and/or bundle mwc-formfield.
+## API
 
-## Supported Browsers
+### Slots
 
-The last 2 versions of all modern browsers are supported, including
-Chrome, Safari, Opera, Firefox, Edge. In addition, Internet Explorer 11 is also supported.
+Name      | Description
+--------- | -----------
+*default* | The input element that this form field provides a label for.
+
+
+### Properties/Attributes
+
+Name    | Type     | Description
+------- | -------- | ----------------------------------
+`label` | `string` | The text to display for the label and sets a11y label on input. (visually overriden by slotted label)
+`alignEnd` | `boolean` | Align the component at the end of the label.
+`spaceBetween` | `boolean` | Add space between the component and the label as the formfield grows.
+`nowrap` | `boolean` | Prevents the label from wrapping and overflow text is ellipsed.
+
+### Methods
+
+*None*
+
+### Events
+
+*None*
+
+### CSS Custom Properties
+
+*None*
+
+## Additional references
+
+-   [MDC Web Form Fields](https://material.io/develop/web/components/input-controls/form-fields/)

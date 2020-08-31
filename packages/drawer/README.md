@@ -1,64 +1,171 @@
-# mwc-drawer
+# `<mwc-drawer>` [![Published on npm](https://img.shields.io/npm/v/@material/mwc-drawer.svg)](https://www.npmjs.com/package/@material/mwc-drawer)
+> IMPORTANT: The Material Web Components are a work in progress and subject to
+> major changes until 1.0 release.
 
-> :warning: These components are a work in progress. They are pre-release and should be considered experimental, as they may undergo major changes before release. We are experimenting with alternate architectures and approaches with the goal of allowing us to bring the most correct and optimal implementation of Material components to the widest possible audiences. Visible progress may be slow, as this research is across teams and repositories so is not consistently reflected in commits to this codebase. :warning:
+The Navigation Drawer is used to organize access to destinations and other functionality on an app.
 
-A [Material Components](https://material.io/develop/) drawer implementation using [Web Components](https://www.webcomponents.org/introduction)
+[Material Design Guidelines: Navigation Drawer](https://material.io/components/navigation-drawer/)
 
-## Getting started
+[Demo](https://material-components.github.io/material-components-web-components/demos/drawer/)
 
- * The easiest way to try out mwc-drawer is to use one of these online tools:
+## Installation
 
-    * Runs in all [supported](#supported-browsers) browsers: [StackBlitz](https://stackblitz.com/edit/mwc-icon-example?file=index.js), [Glitch](https://glitch.com/edit/#!/mwc-icon-example?path=index.html)
+```sh
+npm install @material/mwc-drawer
+```
 
-    * Runs in browsers with [JavaScript Modules](https://caniuse.com/#search=modules): [JSBin](http://jsbin.com/qibisux/edit?html,output),
-    [CodePen](https://codepen.io/azakus/pen/deZLja).
+> NOTE: The Material Web Components are distributed as ES2017 JavaScript
+> Modules, and use the Custom Elements API. They are compatible with all modern
+> browsers including Chrome, Firefox, Safari, Edge, and IE11, but an additional
+> tooling step is required to resolve *bare module specifiers*, as well as
+> transpilation and polyfills for IE11. See
+> [here](https://github.com/material-components/material-components-web-components#quick-start)
+> for detailed instructions.
 
-* You can also copy [this HTML file](https://gist.githubusercontent.com/azakus/f01e9fc2ed04e781ad5a52ded7b296e7/raw/266f2f4f91cbfe89b2acc6ec63957b1a3cfe9b39/index.html) into a local file and run it in any browser that supports [JavaScript Modules]((https://caniuse.com/#search=modules)).
+## Example usage
 
-* When you're ready to use mwc-drawer in a project, install it via [npm](https://www.npmjs.com/). To run the project in the browser, a module-compatible toolctain is required. We recommend installing the [Polymer CLI](https://github.com/Polymer/polymer-cli) and using its development server as follows.
+### Standard
+<img src="images/standard_no_header.png" width="552px">
 
-  1. Ensure the webcomponents polyfills are included in your HTML page
+```html
+<mwc-drawer>
+    <div>
+        <p>Drawer Content!</p>
+    </div>
+    <div slot="appContent">
+        <mwc-top-app-bar>
+            <div slot="title">Title</div>
+        </mwc-top-app-bar>
+        <div>
+            <p>Main Content!</p>
+        </div>
+    </div>
+</mwc-drawer>
+```
 
-      - Install webcomponents polyfills
+### Standard with Header
+<img src="images/standard.png" width="552px">
 
-          ```npm i @webcomponents/webcomponentsjs```
+```html
+<mwc-drawer hasHeader>
+    <span slot="title">Drawer Title</span>
+    <span slot="subtitle">subtitle</span>
+    <div>
+        <p>Drawer content!</p>
+    </div>
+    <div slot="appContent">
+        <mwc-top-app-bar>
+            <div slot="title">Title</div>
+        </mwc-top-app-bar>
+        <div>
+            <p>Main Content!</p>
+        </div>
+    </div>
+</mwc-drawer>
+```
 
-      - Add webcomponents polyfills to your HTML page
+### Dismissible
+<img src="images/dismissible.gif" width="552px">
 
-          ```<script src="@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>```
+```html
+<mwc-drawer hasHeader type="dismissible">
+    <span slot="title">Drawer Title</span>
+    <span slot="subtitle">subtitle</span>
+    <div>
+        <p>Drawer content!</p>
+        <mwc-icon-button icon="gesture"></mwc-icon-button>
+        <mwc-icon-button icon="gavel"></mwc-icon-button>
+    </div>
+    <div slot="appContent">
+        <mwc-top-app-bar>
+            <mwc-icon-button slot="navigationIcon" icon="menu"></mwc-icon-button>
+            <div slot="title">Title</div>
+        </mwc-top-app-bar>
+        <div>
+            <p>Main Content!</p>
+        </div>
+    </div>
+</mwc-drawer>
+<script>
+    const drawer = document.getElementsByTagName('mwc-drawer')[0];
+    if (drawer) {
+        const container = drawer.parentNode;
+        container.addEventListener('MDCTopAppBar:nav', () => {
+            drawer.open = !drawer.open;
+        });
+    }
+</script>
+```
 
-  1. Add mwc-drawer to your project:
+### Modal
+<img src="images/modal.gif" width="552px">
 
-      ```npm i @material/mwc-drawer```
+```html
+<mwc-drawer hasHeader type="modal">
+    <span slot="title">Drawer Title</span>
+    <span slot="subtitle">subtitle</span>
+    <div>
+        <p>Drawer content!</p>
+        <mwc-icon-button icon="gesture"></mwc-icon-button>
+        <mwc-icon-button icon="gavel"></mwc-icon-button>
+    </div>
+    <div slot="appContent">
+        <mwc-top-app-bar>
+            <mwc-icon-button slot="navigationIcon" icon="menu"></mwc-icon-button>
+            <div slot="title">Title</div>
+        </mwc-top-app-bar>
+        <div>
+            <p>Main Content!</p>
+        </div>
+    </div>
+</mwc-drawer>
+<script>
+    const drawer = document.getElementsByTagName('mwc-drawer')[0];
+    if (drawer) {
+        const container = drawer.parentNode;
+        container.addEventListener('MDCTopAppBar:nav', () => {
+            drawer.open = !drawer.open;
+        });
+    }
+</script>
+```
 
-  1. Import the mwc-drawer definition into your HTML page:
+## API
 
-      ```<script type="module" src="@material/mwc-drawer/index.js"></script>```
+### Slots
+Name | Description
+---- | -----------
+`title` | Header title to display in the drawer when `hasHeader` is true.
+`subtitle` | Header subtitle to display in the drawer when `hasHeader` is true.
+`header` | Additional header elements to display in the drawer.
+`appContent` | Elements to display in the "app content" to the right of, or under, the drawer.
+*default* | Elements to display under the header in drawer.
 
-      Or into your module script:
 
-      ```import {Switch} from "@material/mwc-drawer"```
+### Properties/Attributes
 
-  1. Create an instance of mwc-drawer in your HTML page, or via any framework that [supports rendering Custom Elements](https://custom-elements-everywhere.com/):
+Name | Type | Default | Description
+---- | ---- | ------- | -----------
+`open` | `boolean` | `false` | Whether the dialog is open
+`hasHeader` | `boolean` | `false` | When `true`, displays the `title`, `subtitle`, and `header` slots.
+`type` | `string` | `''` | When set to `'dismissible'`, overlays the drawer on the content. When set to `'modal'`, also adds a scrim when the drawer is open. When set to empty string, it is inlined with the page and displaces app content.
 
-      ```<mwc-drawer>sentiment_very_satisfied</mwc-drawer>```
+### Methods
+*None*
 
-  1. Install the Polymer CLI:
+### Events
 
-      ```npm i -g polymer-cli```
+Name | Detail | Description
+---- | ------ | -----------
+`MDCDrawer:opened` | `{}` | Fired when the drawer opens.
+`MDCDrawer:closed` | `{}` | Fired when the drawer closes.
 
-  1. Run the development server and open a browser pointing to its URL:
+### CSS Custom Properties
 
-      ```polymer serve```
+| Name                 | Default   | Description
+| -------------------- | --------- | -----------
+| `--mdc-drawer-width` | `256px`   | Width of the side drawer when opened.
 
-  > mwc-drawer is published on [npm](https://www.npmjs.com/package/@material/mwc-drawer) using JavaScript Modules.
-  This means it can take advantage of the standard native JavaScript module loader available in all current major browsers.
-  >
-  > However, since mwc-drawer uses npm convention to reference dependencies by name, a light transform to rewrite specifiers to URLs is required to get it to run in the browser. The polymer-cli's development server `polymer serve` automatically handles this transform.
+### Additional References
 
-  Tools like [WebPack](https://webpack.js.org/) and [Rollup](https://rollupjs.org/) can also be used to serve and/or bundle mwc-drawer.
-
-## Supported Browsers
-
-The last 2 versions of all modern browsers are supported, including
-Chrome, Safari, Opera, Firefox, Edge. In addition, Internet Explorer 11 is also supported.
+-   [MDC Web Drawers](https://material.io/develop/web/components/drawers/)

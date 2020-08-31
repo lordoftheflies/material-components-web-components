@@ -9,6 +9,8 @@ Dialogs inform users about a task and can contain critical information, require 
 
 [Material Design Guidelines: dialogs](https://material.io/design/components/dialogs.html)
 
+[Demo](https://material-components.github.io/material-components-web-components/demos/dialog/)
+
 ## Installation
 
 ```sh
@@ -19,7 +21,7 @@ npm install @material/mwc-dialog
 > Modules, and use the Custom Elements API. They are compatible with all modern
 > browsers including Chrome, Firefox, Safari, Edge, and IE11, but an additional
 > tooling step is required to resolve *bare module specifiers*, as well as
-> transpilation and polyfills for Edge and IE11. See
+> transpilation and polyfills for IE11. See
 > [here](https://github.com/material-components/material-components-web-components#quick-start)
 > for detailed instructions.
 
@@ -33,7 +35,7 @@ npm install @material/mwc-dialog
 
 ```html
 <mwc-dialog
-    title="Simple Dialog"
+    heading="Simple Dialog"
     open
     hideActions>
   <ul>
@@ -103,7 +105,7 @@ npm install @material/mwc-dialog
   }
 </style>
 
-<mwc-dialog title="Phone Ringtone" open>
+<mwc-dialog heading="Phone Ringtone" open>
   <div>
     <mwc-formfield label="Never Gonna Give You Up">
       <mwc-radio id="a1" name="a" checked></mwc-radio>
@@ -140,7 +142,7 @@ npm install @material/mwc-dialog
 <img src="images/scrollable.png" width="598px">
 
 ```html
-<mwc-dialog title="Privacy Policy" open>
+<mwc-dialog heading="Privacy Policy" open>
 <div>
   really large amount of text...
 </div>
@@ -165,14 +167,14 @@ npm install @material/mwc-dialog
 ```html
 <style>
   .styled {
-    --mdc-dialog-shape-radius: 0px;
+    --mdc-shape-medium: 0px;
 
     /* color buttons */
     --mdc-theme-primary: #344955;
   }
 </style>
 
-<mwc-dialog title="Styled" class="styled" open>
+<mwc-dialog heading="Styled" class="styled" open>
     <div>
       In this dialog we have changed the button color and removed the border
       radius.
@@ -188,7 +190,7 @@ npm install @material/mwc-dialog
 <img src="images/stacked.png" width="594px">
 
 ```html
-<mwc-dialog title="Stacked" stacked>
+<mwc-dialog heading="Stacked" stacked>
   <div>
     This is what happens when you set the stacked property on mwc-dialog.
     Notice that the primary action is now on top.
@@ -200,6 +202,49 @@ npm install @material/mwc-dialog
     Secondary
   </mwc-button>
 </mwc-dialog>
+```
+
+### Form Validation
+
+<img src="images/mwc-dialog_form-validation.gif" width="500px">
+
+```html
+<mwc-dialog id="dialog" heading="Form Validation">
+  <p>This dialog can validate user input before closing.</p>
+  <mwc-textfield
+    id="text-field"
+    minlength="3"
+    maxlength="64"
+    placeholder="First name"
+    required>
+  </mwc-textfield>
+  <mwc-button
+    id="primary-action-button"
+    slot="primaryAction">
+    Confirm
+  </mwc-button>
+  <mwc-button
+    slot="secondaryAction"
+    dialogAction="close">
+    Cancel
+  </mwc-button>
+</mwc-dialog>
+<script>
+  const dialog = document.querySelector('#dialog');
+  const textField = document.querySelector('#text-field');
+  const primaryButton = document.querySelector('#primary-action-button');
+
+  primaryButton.addEventListener('click', () => {
+    // validate, possible asynchronous such as a server response
+    const isValid = textField.checkValidity();
+    if (isValid) {
+      dialog.close();
+      return;
+    }
+
+    textField.reportValidity();
+  });
+</script>
 ```
 
 ## API
@@ -219,7 +264,7 @@ npm install @material/mwc-dialog
 | `open`                  | `boolean` | Whether the dialog should open.
 | `hideActions`           | `boolean` | Hides the actions footer of the dialog. Needed to remove excess padding when no actions are slotted in.
 | `stacked`               | `boolean` | Whether to stack the action buttons.
-| `title`                 | `string`  | Title of the dialog.
+| `heading`               | `string`  | Heading text of the dialog.
 | `scrimClickAction`      | `string`  | _Default: 'close'_ – Action to be emitted with the `closing` and `closed` events when the dialog closes because the scrim was clicked (see [actions section](#actions)).
 | `escapeKeyAction`       | `string`  | _Default: 'close'_ – Action to be emitted with the `closing` and `closed` events when the dialog closes because the excape key was pressed (see [actions section](#actions)).
 | `defaultAction`         | `string`  | _Default: 'close'_ – Action to be emitted with the `closing` and `closed` events when `<mwc-dialog>.open` is toggled (see [actions section](#actions)).
@@ -232,7 +277,9 @@ npm install @material/mwc-dialog
 | -------- | -------------
 | `forceLayout() => void` | Forces dialog to relayout (animation frame time). May be required if dialog size is incorrect or if stacked layout has not been triggered correctly.
 | `focus() => void` | Focuses on the initial focus element if defined (see [focus section](#focus)).
-| `blur() => void` | Blurs the active element.
+| `blur() => void`  | Blurs the active element.
+| `show() => void`  | Opens the dialog.
+| `close() => void` | Closes the dialog.
 
 ### Listeners
 | Event Name          | Target       | Description
@@ -257,14 +304,21 @@ npm install @material/mwc-dialog
 | Name                                | Default               | Description
 | ----------------------------------- | --------------------- |------------
 | `--mdc-theme-surface`               | ![](images/color_fff.png) `#fff`                | Color of the dialog surface's background.
+| `--mdc-shape-medium`                | `4px`                 | Corner radius of the dialog surface.
 | `--mdc-dialog-scrim-color`          | ![](images/color_0,0,0,32.png) `rgba(0, 0, 0, 0.32)` | Color of the scrim. (**Note:** setting alpha to 0 will still make scrim clickable but transparent).
-| `--mdc-dialog-title-ink-color`      | ![](images/color_0,0,0,87.png) `rgba(0, 0, 0, 0.87)` | Color of the title text.
+| `--mdc-dialog-heading-ink-color`    | ![](images/color_0,0,0,87.png) `rgba(0, 0, 0, 0.87)` | Color of the heading text.
 | `--mdc-dialog-content-ink-color`    | ![](images/color_0,0,0,6.png) `rgba(0, 0, 0, 0.6)`  | Color applied to the projected content. (**Note:** it may also be possible to style the content via the light DOM since it is not encapsulated in a shadow root).
 | `--mdc-dialog-scroll-divider-color` | ![](images/color_0,0,0,12.png) `rgba(0, 0, 0, 0.12)` | Color of the dividers present when dialog is scrollable.
 | `--mdc-dialog-min-width`            | `280px`               | min-width ofthe dialog surface.
 | `--mdc-dialog-max-width`            | `560px`               | max-width of the dialog surface. (**Note:** if max-width is < `560px`, there is a visual jank bug that will occur causing the max width to be `560px` when the window is sized to <= than `560px`).
 | `--mdc-dialog-max-height`           | `calc(100% - 32px)`   | Max height of the dialog surface.
-| `--mdc-dialog-shape-radius`         | `4px`                 | Corner radius of the dialog surface.
+| `--mdc-dialog-box-shadow`           | mdc elevation 24      | Sets the box shadow of the dialog.
+
+#### Elevation values
+
+| Elevation Level | CSS Value
+| -- | -
+`24` | `0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12)`
 
 ### Actions
 
@@ -333,7 +387,7 @@ For example:
 <img src="images/initial-focus.png" width="597px">
 
 ```html
-<mwc-dialog title="Initial Focus" open>
+<mwc-dialog heading="Initial Focus" open>
   <div>
     In this example we set "dialogInitialFocus" on the mwc-textfield.
     When this dialog opens, it is auto-focused.
@@ -353,9 +407,9 @@ For example:
 
 In this example we set `dialogInitialFocus` on the `mwc-textfield`, so
 `mwc-textfield.focus()` will be called on the button. This attribute can also be
-set on anything in the light DOM of `mwc-dialog` including the primary and
-secondary actions. Only one element designated with this attribute will be
-focused.
+set on anything in the light DOM of `mwc-dialog` or the light dom of the
+flattened, distributed nodes including the primary and secondary actions. Only
+one element designated with this attribute will be focused.
 
 Calling `focus()` on the `mwc-dialog` itself will call `focus()` on any
 `dialogInitialFocus` element in the light DOM of `mwc-dialog`.

@@ -1,64 +1,123 @@
-# mwc-switch
+# `<mwc-switch>` [![Published on npm](https://img.shields.io/npm/v/@material/mwc-switch.svg)](https://www.npmjs.com/package/@material/mwc-switch)
 
-> :warning: These components are a work in progress. They are pre-release and should be considered experimental, as they may undergo major changes before release. We are experimenting with alternate architectures and approaches with the goal of allowing us to bring the most correct and optimal implementation of Material components to the widest possible audiences. Visible progress may be slow, as this research is across teams and repositories so is not consistently reflected in commits to this codebase. :warning:
+> IMPORTANT: The Material Web Components are a work in progress and subject to
+> major changes until 1.0 release.
 
-A [Material Components](https://material.io/components/) icon implementation using [Web Components](https://www.webcomponents.org/introduction)
+Switches toggle the state of a single setting on or off. They are the preferred
+way to adjust settings on mobile.
 
-## Getting started
+[Material Design Guidelines: Switch](https://material.io/components/selection-controls/#switches)
 
- * The easiest way to try out mwc-switch is to use one of these online tools:
+[Demo](https://material-components.github.io/material-components-web-components/demos/switch/)
 
-    * Runs in all [supported](#supported-browsers) browsers: [StackBlitz](https://stackblitz.com/edit/mwc-icon-example?file=index.js), [Glitch](https://glitch.com/edit/#!/mwc-icon-example?path=index.html)
+## Installation
 
-    * Runs in browsers with [JavaScript Modules](https://caniuse.com/#search=modules): [JSBin](http://jsbin.com/qibisux/edit?html,output),
-    [CodePen](https://codepen.io/azakus/pen/deZLja).
+```sh
+npm install @material/mwc-switch
+```
 
-* You can also copy [this HTML file](https://gist.githubusercontent.com/azakus/f01e9fc2ed04e781ad5a52ded7b296e7/raw/266f2f4f91cbfe89b2acc6ec63957b1a3cfe9b39/index.html) into a local file and run it in any browser that supports [JavaScript Modules]((https://caniuse.com/#search=modules)).
+> NOTE: The Material Web Components are distributed as ES2017 JavaScript
+> Modules, and use the Custom Elements API. They are compatible with all modern
+> browsers including Chrome, Firefox, Safari, Edge, and IE11, but an additional
+> tooling step is required to resolve *bare module specifiers*, as well as
+> transpilation and polyfills for IE11. See
+> [here](https://github.com/material-components/material-components-web-components#quick-start)
+> for detailed instructions.
 
-* When you're ready to use mwc-switch in a project, install it via [npm](https://www.npmjs.com/). To run the project in the browser, a module-compatible toolctain is required. We recommend installing the [Polymer CLI](https://github.com/Polymer/polymer-cli) and using its development server as follows.
+## Example Usage
 
-  1. Ensure the webcomponents polyfills are included in your HTML page
+### Standard
 
-      - Install webcomponents polyfills
+<img src="images/standard.png" width="68px">
 
-          ```npm i @webcomponents/webcomponentsjs```
+```html
+<mwc-switch></mwc-switch>
+```
 
-      - Add webcomponents polyfills to your HTML page
+### Checked by default
 
-          ```<script src="@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>```
+<img src="images/on.png" width="68px">
 
-  1. Add mwc-switch to your project:
+```html
+<mwc-switch checked></mwc-switch>
+```
 
-      ```npm i @material/mwc-switch```
+### Disabled
 
-  1. Import the mwc-switch definition into your HTML page:
+<img src="images/disabled.png" width="116px">
 
-      ```<script type="module" src="@material/mwc-switch/index.js"></script>```
+```html
+<mwc-switch disabled></mwc-switch>
+<mwc-switch checked disabled></mwc-switch>
+```
 
-      Or into your module script:
+### Styled
 
-      ```import {Switch} from "@material/mwc-switch"```
+<img src="images/styled.png" width="116px">
 
-  1. Create an instance of mwc-switch in your HTML page, or via any framework that [supports rendering Custom Elements](https://custom-elements-everywhere.com/):
+```html
+<style>
+  mwc-switch {
+    --mdc-theme-surface: blue;
+    --mdc-theme-on-surface: blue;
+    --mdc-theme-secondary: red;
+  }
+</style>
+<mwc-switch></mwc-switch>
+<mwc-switch checked></mwc-switch>
+```
 
-      ```<mwc-switch>sentiment_very_satisfied</mwc-switch>```
+### With Form Field
 
-  1. Install the Polymer CLI:
+Most applications should use
+[`<mwc-formfield>`](https://github.com/material-components/material-components-web-components/tree/master/packages/formfield)
+to associate an interactive label with the switch.
 
-      ```npm i -g polymer-cli```
+<img src="images/formfield.png" width="160px" height="48px">
 
-  1. Run the development server and open a browser pointing to its URL:
+```html
+<mwc-formfield label="Airplane mode">
+  <mwc-switch checked></mwc-switch>
+</mwc-formfield>
 
-      ```polymer serve```
+<script type="module">
+  import '@material/mwc-switch';
+  import '@material/mwc-formfield';
+</script>
+```
 
-  > mwc-switch is published on [npm](https://www.npmjs.com/package/@material/mwc-switch) using JavaScript Modules.
-  This means it can take advantage of the standard native JavaScript module loader available in all current major browsers.
-  >
-  > However, since mwc-switch uses npm convention to reference dependencies by name, a light transform to rewrite specifiers to URLs is required to get it to run in the browser. The polymer-cli's development server `polymer serve` automatically handles this transform.
+## API
 
-  Tools like [WebPack](https://webpack.js.org/) and [Rollup](https://rollupjs.org/) can also be used to serve and/or bundle mwc-switch.
+### Slots
 
-## Supported Browsers
+*None*
 
-The last 2 versions of all modern browsers are supported, including
-Chrome, Safari, Opera, Firefox, Edge. In addition, Internet Explorer 11 is also supported.
+### Properties/Attributes
+| Name       | Type      | Default | Description
+| ---------- | --------- | ------- | -----------
+| `checked`  | `boolean` | `false` | Whether or not the switch should be checked / activated.
+| `disabled` | `boolean` | `false` | Disables the input and sets the disabled styles.
+
+### Methods
+
+*None*
+
+### Events
+
+| Event Name | Target         | Detail | Description
+| ---------- | -------------- | ------ | -----------
+| `change`   | `mwc-switch`   | `{}`   | Fired when the user modifies the switch `checked` state from an input device interaction. Note that, like [native `<input>`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event), the `change` event is *not* fired when the `checked` property is set from JavaScript.
+
+### CSS Custom Properties
+
+| Name | Default | Description
+| ----------------------- | -------------------------------------- | ---
+| `--mdc-theme-surface` | ![](images/color_ffffff.png) `#ffffff` | Fill color of the thumb head when unchecked.
+| `--mdc-theme-on-surface` | ![](images/color_000000.png) `#000000` | 38% fill color of the track when unchecked.
+| `--mdc-theme-secondary` | ![](images/color_018786.png) `#018786` | Fill color of the thumb head and 38% fill color of the track when checked.
+
+Also inherits styles from [ripple](https://github.com/material-components/material-components-web-components/tree/master/packages/ripple)
+
+## Additional references
+
+- [MDC Web: Switch](https://github.com/material-components/material-components-web/tree/master/packages/mdc-switch)
